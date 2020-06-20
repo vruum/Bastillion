@@ -5,13 +5,13 @@
     <groupId>io.bastillion</groupId>
     <artifactId>bastillion</artifactId>
     <version>3.10.00</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>Bastillion</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
-        <jetty-version>9.4.29.v20200521</jetty-version>
+        <jetty-version>9.4.30.v20200611</jetty-version>
     </properties>
     <dependencies>
         <dependency>
@@ -59,19 +59,41 @@
             <artifactId>core</artifactId>
             <version>3.4.0</version>
         </dependency>
+        <!--Embedded Jetty -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-distribution</artifactId>
+            <version>${jetty-version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+            <version>${jetty-version}</version>
+        </dependency>
 
-        <!-- provided dependencies-->
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-jaas</artifactId>
             <version>${jetty-version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.websocket</groupId>
             <artifactId>javax-websocket-server-impl</artifactId>
             <version>${jetty-version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
     </dependencies>
     <build>
