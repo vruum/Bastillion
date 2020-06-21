@@ -25,7 +25,7 @@
  *    exception statement from all source files in the program, then also delete
  *    it in the license file.
  */
-package io.bastillion.manage.control;
+package io.bastillion.manage.service;
 
 import io.bastillion.common.util.AuthUtil;
 import io.bastillion.manage.db.PublicKeyDB;
@@ -47,7 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Action to manage users
  */
-public class UsersKtrl extends BaseKontroller {
+public class UsersService extends BaseKontroller {
 
     public static final String REQUIRED = "Required";
     @Model(name = "sortedSet")
@@ -60,7 +60,7 @@ public class UsersKtrl extends BaseKontroller {
     Long userId;
 
 
-    public UsersKtrl(HttpServletRequest request, HttpServletResponse response) {
+    public UsersService(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
