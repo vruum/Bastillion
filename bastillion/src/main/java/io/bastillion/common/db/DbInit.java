@@ -49,7 +49,7 @@ public class DbInit {
 
     private static Logger log = LoggerFactory.getLogger(DbInit.class);
 
-    public void init() throws ServletException {
+    public void init() {
 
 
         Connection connection = null;

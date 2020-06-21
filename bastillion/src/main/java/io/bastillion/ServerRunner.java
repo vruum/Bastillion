@@ -1,6 +1,9 @@
 package io.bastillion;
 
 import io.bastillion.common.db.DbInit;
+import io.bastillion.common.util.Config;
+import io.bastillion.common.util.ConfigurationFactory;
+import io.bastillion.manage.util.RefreshAuthKeyUtil;
 import loophole.mvc.base.DispatcherServlet;
 import loophole.mvc.base.TemplateServlet;
 import loophole.mvc.config.TemplateConfig;
@@ -13,6 +16,9 @@ import org.eclipse.jetty.webapp.*;
 public class ServerRunner {
 
     public static void main(String[] args) throws Exception {
+        Config config = new ConfigurationFactory()
+                .config();
+
         Server server = new Server(3456);
 
         String rootPath = ServerRunner.class.getClassLoader().getResource(".").toString();
@@ -22,6 +28,7 @@ public class ServerRunner {
         AnnotationConfiguration annotationConfiguration = new AnnotationConfiguration();
         new TemplateConfig().init(webapp.getServletContext());
         new DbInit().init();
+        RefreshAuthKeyUtil.startRefreshAllSystemsTimerTask();
         webapp.setConfigurations(new Configuration[]
                 {
                         annotationConfiguration,

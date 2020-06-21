@@ -345,7 +345,6 @@ public class SSHUtil {
 	 * @return status of key distribution
 	 */
 	public static HostSystem addPubKey(HostSystem hostSystem, Session session, String appPublicKey) {
-
 		try {
 			String authorizedKeys = hostSystem.getAuthorizedKeys().replaceAll("~\\/|~", "");
 

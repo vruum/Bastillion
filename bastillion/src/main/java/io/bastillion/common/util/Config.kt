@@ -1,5 +1,8 @@
 package io.bastillion.common.util
 
+import io.bastillion.manage.util.EncryptionUtil
+import org.apache.commons.lang3.StringUtils
+
 data class Config(
         //set to true to regenerate and import SSH keys
         val resetApplicationSSHKey: Boolean = false,
@@ -96,4 +99,25 @@ data class Config(
 
         //The maximum amount of time (in milliseconds) to block before throwing an exception when the connection pool is exhausted
         val maxWait: Int = 15000
-)
+) {
+    fun decryptProperty(input: String): String {
+        if (StringUtils.isNotEmpty(input)) {
+            return EncryptionUtil.decrypt(
+                    input.replace("^" + EncryptionUtil.CRYPT_ALGORITHM + "\\{", "").replace("\\}$", "")
+            );
+
+        }
+        return "";
+    }
+    //	public static void encryptProperty(String name, String value) {
+//		//remove property
+//		if (StringUtils.isNotEmpty(value)) {
+//			try {
+//				prop.setProperty(name, EncryptionUtil.CRYPT_ALGORITHM + "{" + EncryptionUtil.encrypt(value) + "}");
+//				prop.save();
+//			} catch (Exception ex) {
+//				log.error(ex.toString(), ex);
+//			}
+//		}
+//	}
+}

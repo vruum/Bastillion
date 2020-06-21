@@ -87,6 +87,7 @@ public class UsersKtrl extends BaseKontroller {
             }
         } else {
             UserDB.insertUser(user);
+            
         }
         return  retVal;
     }

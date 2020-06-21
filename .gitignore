@@ -10,7 +10,7 @@ target/*
 *.DS_Store
 /target/
 /bin/
-
+*/target/
 # Eclipse Project Setting #
 .classpath
 .project
