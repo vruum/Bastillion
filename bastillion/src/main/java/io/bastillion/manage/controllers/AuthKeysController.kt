@@ -1,11 +1,12 @@
 package io.bastillion.manage.controllers
 
 import io.javalin.Javalin
+import io.javalin.http.Context
 
 class AuthKeysController(app: Javalin) {
     init {
         app
-                .get("/manage/enablePublicKey") { enablePublicKey() }
+                .get("/manage/enablePublicKey") { ctx -> enablePublicKey(ctx) }
                 .get("/manage/disablePublicKey") { disablePublicKey() }
                 .get("/manage/viewKeys") { manageViewKeys() }
                 .get("/admin/viewKeys") { adminViewKeys() }
@@ -14,7 +15,10 @@ class AuthKeysController(app: Javalin) {
                 .get("/admin/downloadPvtKey") { downloadPvtKey() }
     }
 
-    fun enablePublicKey() {}
+    fun enablePublicKey(ctx: Context) {
+        ctx.render("error.html")
+    }
+
     fun disablePublicKey() {}
     fun manageViewKeys() {}
     fun adminViewKeys() {}

@@ -71,7 +71,7 @@ public class UserDB {
      * @param sortedSet object that defines sort order
      * @return sorted user list
      */
-    public static SortedSet<User> getUserSet(SortedSet sortedSet) {
+    public static SortedSet getUserSet(SortedSet sortedSet) {
 
         ArrayList<User> userList = new ArrayList<>();
 
@@ -128,7 +128,7 @@ public class UserDB {
      * @profileId check if user is apart of given profile
      * @return sorted user list
      */
-    public static SortedSet<User> getAdminUserSet(SortedSet sortedSet, Long profileId) {
+    public static SortedSet getAdminUserSet(SortedSet sortedSet, Long profileId) {
 
         ArrayList<User> userList = new ArrayList<>();
 

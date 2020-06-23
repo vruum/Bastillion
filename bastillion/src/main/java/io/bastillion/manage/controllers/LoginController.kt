@@ -2,6 +2,7 @@ package io.bastillion.manage.controllers
 
 
 import io.javalin.Javalin
+import io.javalin.http.Context
 import loophole.mvc.annotation.Kontrol
 import loophole.mvc.annotation.MethodType
 
@@ -9,14 +10,14 @@ import loophole.mvc.annotation.MethodType
 class LoginController(app: Javalin) {
     init {
         app
-                .get("/login") { login() }
+                .get("/login") { login(it) }
                 .get("/logout") { logout() }
                 .post("/loginSubmit") { loginSubmit() }
     }
 
 
-    fun login() {
-
+    fun login(ctx: Context) {
+        ctx.render("/login.html")
     }
 
 
