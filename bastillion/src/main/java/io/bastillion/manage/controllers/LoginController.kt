@@ -12,7 +12,7 @@ class LoginController(app: Javalin) {
         app
                 .get("/login") { login(it) }
                 .get("/logout") { logout() }
-                .post("/loginSubmit") { loginSubmit() }
+                .post("/loginSubmit") { loginSubmit(it) }
     }
 
 
@@ -21,7 +21,7 @@ class LoginController(app: Javalin) {
     }
 
 
-    fun loginSubmit() {
+    fun loginSubmit(ctx: Context) {
 
     }
 
