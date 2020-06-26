@@ -1,4 +1,4 @@
-package io.bastillion.db
+package io.bastillion.manage.db
 
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate

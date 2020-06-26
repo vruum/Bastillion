@@ -1,8 +1,6 @@
 package io.bastillion.manage.services
 
-import io.bastillion.db.SchemaDao
-import org.jdbi.v3.core.Jdbi
-import org.jdbi.v3.sqlobject.SqlObjectPlugin
+import io.bastillion.manage.db.SchemaDao
 
 
 class SchemaService(val schema: SchemaDao) {

@@ -1,6 +1,6 @@
 package io.bastillion
 
-import io.bastillion.db.SchemaDao
+import io.bastillion.manage.db.SchemaDao
 import io.bastillion.manage.controllers.*
 import io.bastillion.manage.services.AuthenticationService
 import io.bastillion.manage.services.SchemaService
