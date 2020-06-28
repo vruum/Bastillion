@@ -2,27 +2,35 @@ package io.bastillion
 
 import io.bastillion.manage.db.SchemaDao
 import io.bastillion.manage.controllers.*
+import io.bastillion.manage.db.AuthRepo
 import io.bastillion.manage.services.AuthenticationService
+import io.bastillion.manage.services.BCryptEncoder
 import io.bastillion.manage.services.SchemaService
 import io.javalin.Javalin
 import io.javalin.http.Handler
 import io.javalin.plugin.rendering.JavalinRenderer
 import io.javalin.plugin.rendering.template.JavalinThymeleaf
+import org.eclipse.jetty.server.session.DatabaseAdaptor
+import org.eclipse.jetty.server.session.DefaultSessionCache
+import org.eclipse.jetty.server.session.JDBCSessionDataStoreFactory
+import org.eclipse.jetty.server.session.SessionHandler
 import org.jdbi.v3.core.Jdbi
+import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.jdbi.v3.sqlobject.SqlObjectPlugin
 import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
 import org.jdbi.v3.sqlobject.kotlin.onDemand
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
+import java.util.function.Supplier
 
 
 fun main(args: Array<String>) {
-
+    val sqlSessionHandler: SessionHandler = sqlSessionHandler("e", "h")
     val jdbi = jdbi();
     schemaService(jdbi)
             .initialiseSchema(true)
     registerThymeleaf()
-    registerControllers(app())
+    registerControllers(app(), jdbi)
 }
 
 fun app(): Javalin {
@@ -35,9 +43,8 @@ fun app(): Javalin {
 fun jdbi(): Jdbi {
     System.setProperty("h2.baseDir", SchemaService::class.java.getClassLoader().getResource(".").getPath())
     val jdbi = Jdbi.create("jdbc:h2:keydb/bastillion2;CIPHER=AES", "test", "filepwd test")
-    jdbi.installPlugin(SqlObjectPlugin())
-    jdbi.installPlugin(KotlinSqlObjectPlugin())
-    return jdbi;
+    return jdbi.installPlugin(KotlinPlugin())
+            .installPlugin(KotlinSqlObjectPlugin())
 }
 
 fun registerThymeleaf() {
@@ -55,10 +62,11 @@ fun schemaService(jdbi: Jdbi): SchemaService {
     return SchemaService(jdbi.onDemand<SchemaDao>());
 }
 
-fun registerControllers(app: Javalin) {
+fun registerControllers(app: Javalin, jdbi: Jdbi) {
+
     IndexController(app)
     AuthKeysController(app)
-    LoginController(app)
+    LoginController(app, jdbi.onDemand<AuthRepo>(), BCryptEncoder())
     OTPController(app)
     ProfileController(app)
     ScriptController(app)
@@ -71,5 +79,18 @@ fun registerControllers(app: Javalin) {
     app.before(Handler {
         it.attribute("errors", ArrayList<String>())
         it.attribute("fieldErrors", HashMap<String, String>())
+
     })
+}
+
+fun sqlSessionHandler(driver: String, url: String) = SessionHandler().apply {
+    sessionCache = DefaultSessionCache(this).apply { // create the session handler
+        sessionDataStore = JDBCSessionDataStoreFactory().apply { // attach a cache to the handler
+            setDatabaseAdaptor(DatabaseAdaptor().apply { // attach a store to the cache
+                setDriverInfo(driver, url)
+            })
+        }.getSessionDataStore(sessionHandler)
+    }
+    httpOnly = true
+    // make additional changes to your SessionHandler here
 }

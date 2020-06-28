@@ -53,6 +53,9 @@
 
     <form id="loginSubmit" th:action="@{/loginSubmit}" method="post" autocomplete="off">
 
+        <div class="danger" th:if="${authfailed!=null}">
+            Authentication failed
+        </div>
         <table>
             <tr>
                 <td>
