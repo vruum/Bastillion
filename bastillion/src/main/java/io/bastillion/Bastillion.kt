@@ -5,6 +5,7 @@ import io.bastillion.manage.controllers.*
 import io.bastillion.manage.db.AuthRepo
 import io.bastillion.manage.services.AuthenticationService
 import io.bastillion.manage.services.BCryptEncoder
+import io.bastillion.manage.services.LoginService
 import io.bastillion.manage.services.SchemaService
 import io.javalin.Javalin
 import io.javalin.http.Handler
@@ -25,10 +26,12 @@ import java.util.function.Supplier
 
 
 fun main(args: Array<String>) {
-    val sqlSessionHandler: SessionHandler = sqlSessionHandler("e", "h")
+
     val jdbi = jdbi();
     schemaService(jdbi)
             .initialiseSchema(true)
+    LoginService(BCryptEncoder(), jdbi.onDemand<AuthRepo>())
+            .createUser("peter", "peter", "peter@peter.net")
     registerThymeleaf()
     registerControllers(app(), jdbi)
 }
@@ -66,7 +69,7 @@ fun registerControllers(app: Javalin, jdbi: Jdbi) {
 
     IndexController(app)
     AuthKeysController(app)
-    LoginController(app, jdbi.onDemand<AuthRepo>(), BCryptEncoder())
+    LoginController(app, LoginService(BCryptEncoder(), jdbi.onDemand<AuthRepo>()))
     OTPController(app)
     ProfileController(app)
     ScriptController(app)

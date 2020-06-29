@@ -24,7 +24,10 @@ class BCryptEncoder(private val defaultCost: Int = 8) {
     }
 
 
-    fun matches(passwordInput: String, hashedSaltedAndEncoded: String): Boolean {
+    fun matches(passwordInput: String, hashedSaltedAndEncoded: String?): Boolean {
+        if(hashedSaltedAndEncoded == null){
+            return false;
+        }
         val split = hashedSaltedAndEncoded.split(":")
         if (split.size != 4) {
             throw RuntimeException("invalidly encoded password")
