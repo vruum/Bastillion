@@ -8,6 +8,7 @@ import io.javalin.Javalin
 import io.javalin.http.Context
 import loophole.mvc.annotation.Kontrol
 import loophole.mvc.annotation.MethodType
+import kotlin.math.log
 
 
 class LoginController(app: Javalin, val loginService: LoginService) {
@@ -32,13 +33,14 @@ class LoginController(app: Javalin, val loginService: LoginService) {
 
 
     fun loginSubmit(ctx: Context) {
-        val formParamMap = ctx.formParamMap()
         val username = ctx.formParam("auth.username")
         val password = ctx.formParam("auth.password")
         if (username != null && password != null && loginService.authenticate(username, password)) {
-            ctx.redirect("/happyGoLucky")
+            ctx.sessionAttribute("user", loginService.getUser(username))
+            ctx.redirect(ctx.sessionAttribute<String>("post-auth.redirect")?: "/")
+
         } else {
-            ctx.redirect("/login?authfailed")
+            ctx.redirect("/login?authfailed=true")
         }
 
 

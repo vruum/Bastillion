@@ -40,6 +40,7 @@ fun app(): Javalin {
     return Javalin.create { config ->
         config.addStaticFiles("/res")
         config.accessManager(AuthenticationService())
+
     }.start(7000)
 }
 

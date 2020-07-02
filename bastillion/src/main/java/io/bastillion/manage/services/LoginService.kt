@@ -12,6 +12,9 @@ class LoginService(val bcrypt: BCryptEncoder, val repo: AuthRepo) {
                 } ?: false
     }
 
+    fun getUser(username: String):User?{
+        return repo.getUserByUsername(username)
+    }
     fun resetPassword(username: String, newPassword: String): User? {
         return repo.getUserByUsername(username)?.let {
             repo.setUserPassword(username, bcrypt.hashAndSalt(newPassword))

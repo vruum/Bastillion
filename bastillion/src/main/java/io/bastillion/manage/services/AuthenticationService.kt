@@ -1,6 +1,6 @@
 package io.bastillion.manage.services
 
-import io.bastillion.manage.model.User
+import io.bastillion.manage.db.entities.User
 import io.javalin.core.security.AccessManager
 import io.javalin.core.security.Role
 import io.javalin.http.Context
@@ -17,6 +17,10 @@ class AuthenticationService : AccessManager {
                 handler.handle(ctx)
             } else {
                 log.info("User not authenticated. redirecting to /login")
+                //only set post auth redirect if it's not already set(multiple failed auths)
+                if (ctx.sessionAttribute<String>("post-auth.redirect") == null) {
+                    ctx.sessionAttribute("post-auth.redirect", ctx.fullUrl())
+                }
                 ctx.redirect("/login")
             }
         }
