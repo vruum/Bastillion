@@ -13,7 +13,7 @@ create table if not exists system (
   authorized_keys varchar not null,
   status_cd varchar not null default 'INITIAL')
  */
-class HostSystem(@ColumnName("id") val id: Long? = null,
+data class HostSystem(@ColumnName("id") val id: Long? = null,
                  @ColumnName("display_nm") val displayNm: String? = null,
                  @ColumnName("user") val user: String? = "root",
                  @ColumnName("host") val host: String? = null,

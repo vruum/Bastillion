@@ -6,7 +6,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
 
 interface AuthRepo {
-    @SqlQuery("SELECT * FROM user ORDER BY name")
+    @SqlQuery("SELECT * FROM users ORDER BY username")
     fun listUsers(): List<User>?
 
     @SqlQuery("select * from  users where lower(username) like lower(:username)")
